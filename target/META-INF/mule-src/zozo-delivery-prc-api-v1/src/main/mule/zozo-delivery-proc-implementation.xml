@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<flow name="getOrderDelivery" doc:id="4703b29e-b7f7-4444-896c-426256e6ac42" >
+		<logger level="INFO" doc:name="Start getOrderDeliver Logger INFO" doc:id="44a1d5aa-dc78-4168-8414-c49cf3825397" message='#["getOrderDeliver flow start at "++ now() as String]'/>
+		<ee:transform doc:name="Storing queryParams in queryParams variable" doc:id="58fdd05e-8c40-4437-99d3-9b9844af333f">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="queryParams" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"usItemId":attributes.queryParams.usItemId,
+	"quantity":attributes.queryParams.quantity,
+	"storeOpen24Hrs":attributes.queryParams.storeOpen24Hrs
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Get Product Details from Walmart" doc:id="22805d10-9920-4da1-bbe0-78f5a5e7edb5" name="getProductDetails"/>
+		<flow-ref doc:name="Get Store Details from Walmart" doc:id="edf20647-af26-4cbe-8f5d-2c0544c6fd06" name="getStoreDetails"/>
+		<ee:transform doc:name="Data Transforming to required payload" doc:id="0f1c644c-8e0b-4828-8800-6c304a8d0a9d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{   "store_distance": payload.store_distance,
+	"store_id": payload.store_id,
+	"store_name": payload.store_name,
+	"store_address": payload.store_address,
+	"store_contact_number": payload.store_contact_number,
+	"product_type_id": vars.product_type_id,
+	"quantity": vars.queryParams.quantity as Number
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<http:request method="POST" doc:name="Insert data to Delivery_Store_Details" doc:id="e251ba7a-9a60-4fc8-95c2-da2002b14d17" config-ref="HTTP_Request_zozo_sys_configuration" path="/api/deliveryDetails">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"client_secret" : p('zozoSysApi.client_secret'),
+	"client_id" : p('zozoSysApi.client_id')
+}]]]></http:headers>
+		</http:request>
+		<ee:transform doc:name="Success Message" doc:id="a45231c2-6c28-405e-8410-644a2e2793ea" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "message": "Order will be deliverd soon!!!"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End getOrderDeliver Logger INFO" doc:id="b40c58df-b445-4a87-9847-18459bda5a4a" message='#["getOrderDeliver flow end at "++ now() as String]' />
+	</flow>
+	<flow name="getProductDetails" doc:id="6b880e09-e99e-4aa3-96fb-ec9007771bde" >
+		<logger level="INFO" doc:name="Start getProductDetails Logger INFO" doc:id="0262a663-cd82-4eeb-9461-4ba3007e3fa7" message='#["getProductDetails flow start at "++ now() as String]' />
+		<http:request method="GET" doc:name="Get Product Details" doc:id="45fecef6-02ca-486a-9f20-5af49515f239" config-ref="HTTP_Request_configuration" path="/products/v3/get-details">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"x-rapidapi-key" : p('walmart.key'),
+	"x-rapidapi-host" : p('walmart.host')
+}]]]></http:headers>
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"usItemId" : attributes.queryParams.usItemId
+}]]]></http:query-params>
+		</http:request>
+		<validation:is-true doc:name="Is usItemId valid" doc:id="93cc178d-4e39-445e-bdb6-7c4b1a33a2eb" message='#["Invalid usItemId"]' expression="#[payload.data.product != null]" />
+		<ee:transform doc:name="Transforming payload to required payload" doc:id="922d8585-f5db-4a40-b227-18fa25b64932">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"postalCode": payload.data.product.location.postalCode,
+	"minOrderLimit":payload.data.product.orderMinLimit,
+	"maxOrderLimit":payload.data.product.orderLimit
+	}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable variableName="product_type_id"><![CDATA[%dw 2.0
+output application/json
+---
+
+payload.data.product.productTypeId
+]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<validation:is-number numberType="INTEGER" doc:name="Is Quantity Valid" doc:id="9ef994f6-6744-4ad6-b398-1901c5cac68a" value="#[vars.queryParams.quantity]" minValue="#[payload.minOrderLimit]" maxValue="#[payload.maxOrderLimit]" message='#["Quantity should be in between "  ++ payload.minOrderLimit as String ++ " and " ++ payload.maxOrderLimit as String]' />
+		<logger level="INFO" doc:name="End getProductDetails Logger INFO" doc:id="13a36984-53af-4229-9516-048ca153e80e" message='#["getProductDetails flow end at "++ now() as String]' />
+	</flow>
+	<flow name="getStoreDetails" doc:id="2bcee457-b461-4659-b4ab-823d0fd811e6" >
+		<logger level="INFO" doc:name="Start getStoreDetails Logger INFO" doc:id="a77e06a3-8cce-408e-b82a-c10aa9c708de" message='#["getStoreDetails flow start at "++ now() as String]' />
+		<http:request method="GET" doc:name="Get Store Details" doc:id="48e50830-08be-4eb9-aa9a-9545bb35f355" config-ref="HTTP_Request_configuration" path="/stores/list">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"x-rapidapi-key" : p('walmart.key'),
+	"x-rapidapi-host" : p('walmart.host')
+}]]]></http:headers>
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"postalCode" : payload.postalCode
+}]]]></http:query-params>
+		</http:request>
+		<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="7be3be5c-38fb-4b89-9eff-0b505956dc65" values="#[payload.data.storesBySearchTerm.stores]" message='#["No stores located in the mentioned Postal code"]' />
+		<ee:transform doc:name="Sorting payload by distance" doc:id="d56c4fce-2659-449c-a0d3-9106baa47d39">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+var address=(addressDetails :Object)->
+	addressDetails.address ++ ", " ++ addressDetails.city ++ ", " ++ addressDetails.state ++ ", " ++ addressDetails.country ++ " (" ++
+	addressDetails.postalCode ++ ")"
+
+---
+payload.data.storesBySearchTerm.stores map((value,index)->
+{ 
+	"store_distance": value.distance,
+	"store_id": value.id,
+	"store_name": value.displayName,
+	"store_address": address(value.address),
+	"open24Hrs": value.operationalHours.open24Hours,
+	"store_contact_number": "22233"++ value.address.postalCode as String
+}) orderBy $.store_distance
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<choice doc:name="storeOpen24Hrs  yes or no" doc:id="e2230776-f11b-4b63-9971-0469b358c71e">
+			<when expression='#[vars.queryParams.storeOpen24Hrs == "Yes"]'>
+				<ee:transform doc:name="24 hrs Open Store Filter" doc:id="44aa2616-87e9-47a6-805f-e8409f28f7ba">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+var store=payload filter ($.open24Hrs != null)
+---
+store[0]]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<validation:is-true doc:name="Is any store operating 24 Hours" doc:id="559a2aef-cb22-480d-af70-8e21bd6a8eb9" expression="#[payload != null and sizeOf(payload) != 0]" message='#["Please choose other store operating hour option,as no store is operating 24 hours currently"]' />
+			</when>
+			<otherwise>
+				<ee:transform doc:name="all operating stores" doc:id="d4bb965c-a162-422b-9395-3d096a85fc1a">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload[0]]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+		<logger level="INFO" doc:name="End getStoreDetails Logger INFO" doc:id="146529a4-9fbb-4857-a6cb-6d066117372e" message='#["getStoreDetails flow end at "++ now() as String]' />
+	</flow>
+</mule>

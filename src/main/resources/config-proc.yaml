@@ -1,0 +1,20 @@
+zozoProc:
+  host: "![DeXZouHo2v6Dm3jfqJAF/w==]"
+  port: "![85Pow3MnIVDSfP3xn3yenw==]"
+
+walmart:
+  host: "![f/zya5aeP0IQVkGEm4tywngIR/io2FBJm+ZKpgtImyc=]"
+  port: "![rp7dCxtfsMPXYQWa9dO3+w==]"
+  basepath: "![NRL497HU0h6gy0t/EuNmJA==]"
+  protocol: "![5Mw8i31EuHxf2bloS2vWlA==]"
+  key: "![hkx3vnZNUftSRyQdWC7mxaOHuAHuKI42Aij+qm5LLIkWc4l34ZMzx58U1EMy56RFarAvWUSG10Vi47S3GyfDyQ==]"
+
+zozoSysApi:
+  host: "![764fd1beqJZkz2lNfc0tXq95GNUQ1528i07vKQq/xsQLborQ5cJt1cGOgH7ovphN]"
+  port: "![P6ZyUuKynxjVmc05tsXgPQ==]"
+  basePath: "![NRL497HU0h6gy0t/EuNmJA==]"
+  protocol: "![5U9uV77+oNWxmQzpTOML9Q==]"
+  client_id: "![7QQFh4ZFqBn8eM8K+rHa0FX4rknIFAI/p6WDbmujoywscRkkvJd06NrugF7Zj99u]"
+  client_secret: "![oeZH7BdCsrxChslTyvKxYBmQVibXaw3iBy22QQMNDrTK81XvDyj9aHAa/coqJYu1]"
+
+

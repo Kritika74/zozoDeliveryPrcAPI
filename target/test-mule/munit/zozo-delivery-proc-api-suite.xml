@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="zozo-delivery-proc-api-suite.xml" />
+	<munit:test name="zozo-delivery-proc-api-main-test" doc:id="994c9cd4-7635-4afa-ac68-f641cd2d81ba">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock APIkit Router" doc:id="20833536-6770-4b66-918f-96497e02613f" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="06680b6d-6b44-4ec6-96fd-a2bdac2a5a9d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://zozodeliveryprocapimaintest\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://zozodeliveryprocapimaintest\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://zozodeliveryprocapimaintest\mock_variable_.dwl')]" />
+						<munit-tools:variable key="product_type_id" value="#[output application/json --- readUrl('classpath://zozodeliveryprocapimaintest\mock_variable_1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://zozodeliveryprocapimaintest\mock_variable_2.dwl')]" />
+						<munit-tools:variable key="queryParams" value="#[output application/json --- readUrl('classpath://zozodeliveryprocapimaintest\mock_variable_3.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="2a24e2c3-9fb7-48e9-bd46-320c7005c708" >
+				<munit:payload value="#[readUrl('classpath://zozodeliveryprocapimaintest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://zozodeliveryprocapimaintest\set-event_attributes.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to zozo-delivery-proc-api-main" doc:id="b5dd886e-a64b-4d4c-bcb5-9a722f77775b" name="zozo-delivery-proc-api-main"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="f2f3a755-7fc7-48c6-8a77-8dd08b555fa3" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import zozodeliveryprocapimaintest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="zozo-delivery-proc-api-console-test" doc:id="31b7fbc5-97f2-4c8e-b030-c7515648f177">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock APIkit Console" doc:id="a8529e11-68c2-464d-a6d4-4c60c3db37b2" processor="apikit:console">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="931709cf-9911-48fa-bec5-43daacb992de" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[readUrl('classpath://zozodeliveryprocapiconsoletest\mock_payload.dwl')]" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://zozodeliveryprocapiconsoletest\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://zozodeliveryprocapiconsoletest\mock_variable_.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://zozodeliveryprocapiconsoletest\mock_variable_1.dwl')]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="bbe4f268-17e4-4089-b7f3-1af3f0af0734" >
+				<munit:payload value="#[readUrl('classpath://zozodeliveryprocapiconsoletest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://zozodeliveryprocapiconsoletest\set-event_attributes.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to zozo-delivery-proc-api-console" doc:id="87f4a0ca-5105-4201-aab6-afeec1486d39" name="zozo-delivery-proc-api-console"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="3a504630-3283-4547-9fc4-80d2a39dc8c3" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import zozodeliveryprocapiconsoletest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+<munit:test name="zozo-delivery-proc-api-main-test_BAD_REQUEST" doc:id="55db577e-1f30-4862-ae73-b47085049533">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock APIkit Router" doc:id="14ac881e-e69b-4ebc-92d2-cfddab47ad96" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="06680b6d-6b44-4ec6-96fd-a2bdac2a5a9d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:BAD_REQUEST" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="96b3a39f-a5ad-4a19-9e48-6a15ffe6c284" >
+				<munit:payload value="#[readUrl('classpath://zozodeliveryprocapimaintest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://zozodeliveryprocapimaintest\set-event_attributes.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="cb65d282-b1b0-489d-808d-cf4de5454da8" >
+				<flow-ref doc:name="Flow-ref to zozo-delivery-proc-api-main" doc:id="02affdf6-aa8f-4c46-8b3a-44c8f612b2b7" name="zozo-delivery-proc-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="7f512c5d-db57-4588-8dcb-6bc1cfeae5de" type="ANY">
+						<logger level="INFO" doc:name="Logger" doc:id="7829a084-11cf-42a2-9c92-f394c277b008" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="7c1a92f1-f41e-441d-a00d-3fa46faba39f" expression="#[payload.message]" is='#[MunitTools::equalTo("Bad request")]'/>
+
+		</munit:validation>
+	
+</munit:test>
+
+<munit:test name="zozo-delivery-proc-api-main-test_NOT_FOUND" doc:id="98477e67-c44a-47eb-a284-6876b04f2f78">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock APIkit Router" doc:id="a0230b7a-a478-4e0b-8701-3efcdd6222ad" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="06680b6d-6b44-4ec6-96fd-a2bdac2a5a9d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_FOUND" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="55955e14-c52e-4cef-a275-ef586ec443eb" >
+				<munit:payload value="#[readUrl('classpath://zozodeliveryprocapimaintest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://zozodeliveryprocapimaintest\set-event_attributes.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="6bd3c11c-dd1e-4fac-a84b-a7ad7125c012" >
+				<flow-ref doc:name="Flow-ref to zozo-delivery-proc-api-main" doc:id="cb17a84e-df9d-4de9-80dd-3be55c5876af" name="zozo-delivery-proc-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="6226b2de-d896-42ce-9a59-41791b6d8d31" type="ANY">
+						<logger level="INFO" doc:name="Logger" doc:id="6f9a2186-cb55-4f27-87aa-a4c691cba6c5" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="ccc38511-9c00-4047-936a-66903348ccdb" expression="#[payload.message]" is='#[MunitTools::equalTo("Resource not found")]'/>
+
+		</munit:validation>
+	
+</munit:test>
+
+<munit:test name="zozo-delivery-proc-api-main-test_METHOD_NOT_ALLOWED" doc:id="32e62d7f-cb4a-4e2e-ad31-69d2ac4f4fde">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock APIkit Router" doc:id="d2263610-4737-4c35-98f8-a32f7e7d25fe" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="06680b6d-6b44-4ec6-96fd-a2bdac2a5a9d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:METHOD_NOT_ALLOWED" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="ba6449e9-4296-46ad-997c-552e032e4d06" >
+				<munit:payload value="#[readUrl('classpath://zozodeliveryprocapimaintest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://zozodeliveryprocapimaintest\set-event_attributes.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="285671a4-38e9-4f45-8fa0-0d9575d1f372" >
+				<flow-ref doc:name="Flow-ref to zozo-delivery-proc-api-main" doc:id="7497811d-7381-4378-9fb5-3386018fe58e" name="zozo-delivery-proc-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="ee4a17e1-0744-4646-8ef4-db75bd543d4a" type="ANY">
+						<logger level="INFO" doc:name="Logger" doc:id="24ed0d02-3803-493a-81b4-3111244c1542" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="afbe0097-c7cb-4ec2-be3e-8d0c227b87c5" expression="#[payload.message]" is='#[MunitTools::equalTo("Method not allowed")]'/>
+
+		</munit:validation>
+	
+</munit:test>
+
+<munit:test name="zozo-delivery-proc-api-main-test_NOT_ACCEPTABLE" doc:id="f077e89f-4bde-432b-9404-1da66e74f8a0">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock APIkit Router" doc:id="2921c714-df0f-4306-a702-1a2c6ce90e0b" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="06680b6d-6b44-4ec6-96fd-a2bdac2a5a9d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_ACCEPTABLE" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="a362514d-c609-4284-8fb7-d7b420e0b711" >
+				<munit:payload value="#[readUrl('classpath://zozodeliveryprocapimaintest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://zozodeliveryprocapimaintest\set-event_attributes.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="e1e297da-020e-4c5f-ab41-39f9037a1a9d" >
+				<flow-ref doc:name="Flow-ref to zozo-delivery-proc-api-main" doc:id="3be36789-f0e1-436f-a464-20bbdeb0b985" name="zozo-delivery-proc-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="d8589818-81e7-4451-8669-5f90d544c271" type="ANY">
+						<logger level="INFO" doc:name="Logger" doc:id="d29b03f6-5680-4150-a2ca-6ddb3a49f6f9" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="1e6f3e37-d24d-41b4-a64a-f0b5c0411852" expression="#[payload.message]" is='#[MunitTools::equalTo("Not acceptable")]'/>
+
+		</munit:validation>
+	
+</munit:test>
+
+<munit:test name="zozo-delivery-proc-api-main-test_UNSUPPORTED_MEDIA_TYPE" doc:id="e9e79e95-aaec-4400-95a2-3013d5ca3323">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock APIkit Router" doc:id="3d006d99-6247-45e7-8101-99b761f2bbeb" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="06680b6d-6b44-4ec6-96fd-a2bdac2a5a9d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:UNSUPPORTED_MEDIA_TYPE" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="4377122c-12eb-4c48-b482-d1c679608ef7" >
+				<munit:payload value="#[readUrl('classpath://zozodeliveryprocapimaintest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://zozodeliveryprocapimaintest\set-event_attributes.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="5893c250-64d7-43f5-9343-82412b674676" >
+				<flow-ref doc:name="Flow-ref to zozo-delivery-proc-api-main" doc:id="a24f6d6f-ba78-4aeb-b540-cbfb92440f72" name="zozo-delivery-proc-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="6386e05e-83cb-4ba5-ab99-a6819140553f" type="ANY">
+						<logger level="INFO" doc:name="Logger" doc:id="348364b3-df62-4544-8361-c009ddaba036" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="a61e96ce-08c7-48a3-8e3e-8f540392607a" expression="#[payload.message]" is='#[MunitTools::equalTo("Unsupported media type")]'/>
+
+		</munit:validation>
+	
+</munit:test>
+
+<munit:test name="zozo-delivery-proc-api-main-test_NOT_IMPLEMENTED" doc:id="70b842b1-1ecf-4220-b897-6480f4c4a23f">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock APIkit Router" doc:id="2f4fe465-1c39-4a6c-99ef-c979b7ba8894" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="06680b6d-6b44-4ec6-96fd-a2bdac2a5a9d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_IMPLEMENTED" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="9e097cab-4aec-4acd-9b82-08679c25bae6" >
+				<munit:payload value="#[readUrl('classpath://zozodeliveryprocapimaintest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://zozodeliveryprocapimaintest\set-event_attributes.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="c2571ef0-4f5c-4608-905c-091f9609a2bd" >
+				<flow-ref doc:name="Flow-ref to zozo-delivery-proc-api-main" doc:id="a4affa67-270e-47bb-ad18-347a982c3b45" name="zozo-delivery-proc-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="748eb6ae-cc05-4481-a7ac-54552e4b8ec8" type="ANY">
+						<logger level="INFO" doc:name="Logger" doc:id="a0298c6e-ac37-4324-ab52-1b66ef6f9875" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="c4ecad53-8e06-4150-a7e3-318d8e68d498" expression="#[payload.message]" is='#[MunitTools::equalTo("Not Implemented")]'/>
+
+		</munit:validation>
+	
+</munit:test>
+
+<munit:test name="zozo-delivery-proc-api-main-test_INTERNAL_SERVER_ERROR" doc:id="9b36a20b-17d3-48c5-b7c7-ed9664a1cee2">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock APIkit Router" doc:id="7e30cb66-05cd-4e3c-8f33-c06584429fa6" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="06680b6d-6b44-4ec6-96fd-a2bdac2a5a9d" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:INTERNAL_SERVER_ERROR" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="1c864931-fdb4-4726-95a3-1cdd02629da8" >
+				<munit:payload value="#[readUrl('classpath://zozodeliveryprocapimaintest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://zozodeliveryprocapimaintest\set-event_attributes.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="019269b5-160c-4600-b411-14a1a5992907" >
+				<flow-ref doc:name="Flow-ref to zozo-delivery-proc-api-main" doc:id="bdcc6ccb-ccfe-4aaf-b1a8-d013e4daaec1" name="zozo-delivery-proc-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="91611340-806b-4a8c-b6d7-fc10c4b939d7" type="ANY">
+						<logger level="INFO" doc:name="Logger" doc:id="1be83518-72aa-4b6b-945d-fe3d6b0153f8" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="ba384089-2d48-449e-aebb-dfd60c417c34" expression="#[payload.message]" is='#[MunitTools::equalTo("No value present")]'/>
+
+		</munit:validation>
+	
+</munit:test>
+
+</mule>

@@ -1,0 +1,38 @@
+#%RAML 1.0
+title: zozo-delivery-proc-api
+
+
+
+/orderDelivery:
+  get:
+    description: This method is used to find nearest store available for the order to be delivered    
+    queryParameters:
+      usItemId:
+        type: number
+      quantity:
+        type: number
+      storeOpen24Hrs:
+        type: string
+        enum:
+          - Yes
+          - No  
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              {
+                message: "Order will be deliverd soon!!!"
+              }
+      404:
+        body:
+           application/json:   
+              example:
+                {
+                message: "Please choose other store operating hour option,as no store is operating 24 hours currently"
+                }          
+                           
+                 
+
+
+                      

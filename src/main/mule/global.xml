@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway" xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd">
+	 <http:listener-config name="zozo-delivery-proc-api-httpListenerConfig">
+        <http:listener-connection host="${secure::zozoProc.host}" port="${secure::zozoProc.port}" />
+    </http:listener-config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="c3f65a89-f919-499f-8e4e-3003ce04976d" basePath="${secure::walmart.basepath}" >
+		<http:request-connection protocol="${secure::walmart.protocol}" host="${secure::walmart.host}" port="${secure::walmart.port}" >
+		</http:request-connection>
+	</http:request-config>
+	<configuration doc:name="Configuration" doc:id="af23e221-c8ff-4915-888f-fcb5f96fbb02" defaultErrorHandler-ref="Global_Error_Handler" />
+	<http:request-config name="HTTP_Request_zozo_sys_configuration" doc:name="HTTP Request configuration" doc:id="a0296317-3b21-451a-bb67-4579c8cff89f" basePath="${secure::zozoSysApi.basePath}" >
+		<http:request-connection protocol="${secure::zozoSysApi.protocol}" host="${secure::zozoSysApi.host}" port="${secure::zozoSysApi.port}" />
+	</http:request-config>
+	<global-property doc:name="Global Property" doc:id="7689caf5-6edc-4197-86c5-188a693a79cc" name="encryptKey" value="apiseroMule12345" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="5a6cc12a-ba3d-4a22-91fb-1068f15d98ef" file="config-proc.yaml" key="${encryptKey}" />
+	<api-gateway:autodiscovery apiId="17539072" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="3e2b2aa8-3927-4d3f-91f9-cf2e008684e1" flowRef="zozo-delivery-proc-api-main" />
+</mule>

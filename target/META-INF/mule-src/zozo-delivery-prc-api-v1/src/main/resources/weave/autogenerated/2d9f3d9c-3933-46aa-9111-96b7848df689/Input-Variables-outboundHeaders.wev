@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_2d9f3d9c_3933_46aa_9111_96b7848df689_Input_Variables_outboundHeaders = Any
+

@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+	<munit:config name="zozo-delivery-proc-implementation-suite.xml" />
+	<munit:test name="getOrderDelivery-test-success" doc:id="c088d8fd-e644-4e24-bfb2-8ff9bb7f51a9">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Get Store Details from Walmart" doc:id="fea91f23-65ae-4274-b851-28d3b49eaeb0" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="edf20647-af26-4cbe-8f5d-2c0544c6fd06" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://getOrderDeliverytestsuccess\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getOrderDeliverytestsuccess\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getOrderDeliverytestsuccess\mock_variable_.dwl')]" />
+						<munit-tools:variable key="product_type_id" value="#[output application/json --- readUrl('classpath://getOrderDeliverytestsuccess\mock_variable_1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="queryParams" value="#[output application/json --- readUrl('classpath://getOrderDeliverytestsuccess\mock_variable_2.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Insert data to Delivery_Store_Details " doc:id="e0ca53f6-446f-4963-b6fd-952b0fbff09e" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="e251ba7a-9a60-4fc8-95c2-da2002b14d17" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://getOrderDeliverytestsuccess\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getOrderDeliverytestsuccess\mock_attributes1.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getOrderDeliverytestsuccess\mock_variable_3.dwl')]" />
+						<munit-tools:variable key="product_type_id" value="#[output application/json --- readUrl('classpath://getOrderDeliverytestsuccess\mock_variable_4.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="queryParams" value="#[output application/json --- readUrl('classpath://getOrderDeliverytestsuccess\mock_variable_5.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Get Product Details from Walmart" doc:id="1cf6bd98-c39a-4921-bf76-7047222d3b8e" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="22805d10-9920-4da1-bbe0-78f5a5e7edb5" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://getOrderDeliverytestsuccess\mock_payload2.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getOrderDeliverytestsuccess\mock_attributes2.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getOrderDeliverytestsuccess\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="product_type_id" value="#[output application/json --- readUrl('classpath://getOrderDeliverytestsuccess\mock_variable_7.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="queryParams" value="#[output application/json --- readUrl('classpath://getOrderDeliverytestsuccess\mock_variable_8.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="770e6706-4d16-4081-806a-a06c5e4805d9" >
+				<munit:payload value="#[readUrl('classpath://getOrderDeliverytestsuccess\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getOrderDeliverytestsuccess\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getOrderDeliverytestsuccess\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to getOrderDelivery" doc:id="8ed66e14-5a1f-4927-b2a2-f34e55a311f6" name="get:\orderDelivery:zozo-delivery-proc-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="d8aedd5a-7abb-4f22-8852-1be19f127142" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getOrderDeliverytestsuccess::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	
+	<munit:test name="getOrderDelivery-test-success-HTTP_CONNECTIVITY" doc:id="43f2ca9a-05bc-40f5-9665-827db89cf688">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Get Store Details from Walmart" doc:id="cd5692e7-e69e-45b1-8ce0-5d245474b8f9" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="edf20647-af26-4cbe-8f5d-2c0544c6fd06" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://getOrderDeliverytestsuccess\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getOrderDeliverytestsuccess\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getOrderDeliverytestsuccess\mock_variable_.dwl')]" />
+						<munit-tools:variable key="product_type_id" value="#[output application/json --- readUrl('classpath://getOrderDeliverytestsuccess\mock_variable_1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="queryParams" value="#[output application/json --- readUrl('classpath://getOrderDeliverytestsuccess\mock_variable_2.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Insert data to Delivery_Store_Details " doc:id="c9941c02-518b-4130-ad5e-b99973b7c0cb" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="e251ba7a-9a60-4fc8-95c2-da2002b14d17" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="HTTP:CONNECTIVITY" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Get Product Details from Walmart" doc:id="5f57ab47-3242-4403-b6a3-456686169baf" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="22805d10-9920-4da1-bbe0-78f5a5e7edb5" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://getOrderDeliverytestsuccess\mock_payload2.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getOrderDeliverytestsuccess\mock_attributes2.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getOrderDeliverytestsuccess\mock_variable_6.dwl')]" />
+						<munit-tools:variable key="product_type_id" value="#[output application/json --- readUrl('classpath://getOrderDeliverytestsuccess\mock_variable_7.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="queryParams" value="#[output application/json --- readUrl('classpath://getOrderDeliverytestsuccess\mock_variable_8.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="40abbe89-e506-4d54-887f-122352af1dca" >
+				<munit:payload value="#[readUrl('classpath://getOrderDeliverytestsuccess\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getOrderDeliverytestsuccess\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getOrderDeliverytestsuccess\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="75ad3625-d8fe-461b-a61a-7de03cc39748" >
+				<flow-ref doc:name="Flow-ref to getOrderDelivery" doc:id="60280042-fade-4bb3-bf9c-7a321f9fc95a" name="getOrderDelivery" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="a1d125b8-6e7c-41bd-a3c3-a86b3994121a" >
+						<logger level="ERROR" doc:name="Logger" doc:id="466713f2-4daf-49d6-b6ef-68c87e34eef6" message="#[error.errorType.identifier]"/>
+						<ee:transform doc:name="Setting Error Indetifier" doc:id="1a8f346c-050d-4b4e-bbca-83450e59ba08" >
+							<ee:message >
+								<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	"message": error.errorType.namespace as String ++ ":" ++ error.errorType.identifier as String 
+}]]></ee:set-payload>
+							</ee:message>
+						</ee:transform>
+					</on-error-continue>
+				</error-handler>
+			</try>
+
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="a649315d-97ec-4bfa-b2f0-00db5f55e82e" expression="#[payload.message]" is='#[MunitTools::equalTo("HTTP:CONNECTIVITY")]'/>
+
+		</munit:validation>
+	
+</munit:test>
+	<munit:test name="getProductDetails-test-success" doc:id="a12f3f83-7f4a-46a0-ad9c-fba55065ca7c">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Request" doc:id="9a752b15-0624-47f6-972a-78d4e4a396c1" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="45fecef6-02ca-486a-9f20-5af49515f239" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://getProductDetailstestsuccess\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getProductDetailstestsuccess\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getProductDetailstestsuccess\mock_variable_.dwl')]" />
+						<munit-tools:variable key="queryParams" value="#[output application/json --- readUrl('classpath://getProductDetailstestsuccess\mock_variable_1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="b2706c91-ae27-40e4-8db7-0ff28ef6a254" >
+				<munit:payload value="#[output application/java --- readUrl('classpath://getProductDetailstestsuccess\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/java" />
+				<munit:attributes value="#[readUrl('classpath://getProductDetailstestsuccess\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getProductDetailstestsuccess\set-event_variable_.dwl')]" />
+					<munit:variable key="queryParams" value="#[output application/json --- readUrl('classpath://getProductDetailstestsuccess\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to getProductDetails" doc:id="3836c8aa-514f-44ab-99af-3ced5bbf1dc1" name="getProductDetails"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="32e2c01c-249e-4825-90eb-48a60cabdfee" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getProductDetailstestsuccess::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="getProductDetails-test-INVALID_BOOLEAN" doc:id="56cb7eae-a074-4a7c-84bd-5400718342fc">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Request" doc:id="b41ffc2e-1ab7-4836-91fb-b31abafe97dc" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="45fecef6-02ca-486a-9f20-5af49515f239" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://getProductDetailstestsuccess\mock_invalid_boolean_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getProductDetailstestsuccess\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getProductDetailstestsuccess\mock_variable_.dwl')]" />
+						<munit-tools:variable key="queryParams" value="#[output application/json --- readUrl('classpath://getProductDetailstestsuccess\mock_variable_1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="6597eb93-07e1-4e8a-b9a7-0002ecde47e4" >
+				<munit:payload value="#[output application/java --- readUrl('classpath://getProductDetailstestsuccess\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/java" />
+				<munit:attributes value="#[readUrl('classpath://getProductDetailstestsuccess\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getProductDetailstestsuccess\set-event_variable_.dwl')]" />
+					<munit:variable key="queryParams" value="#[output application/json --- readUrl('classpath://getProductDetailstestsuccess\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="5b680d7c-266d-40b8-8288-c0c77414f45b" >
+				<flow-ref doc:name="Flow-ref to getProductDetails" doc:id="22251ad5-8493-4d2e-9fe9-a2db2ca136c1" name="getProductDetails" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="d3083413-bcac-42cd-b1d5-ff9a7abfa965" >
+						<logger level="ERROR" doc:name="Logger" doc:id="6989f0fc-a991-4896-bace-cd7d24dd092b" message="#[error.description]"/>
+					</on-error-continue>
+				</error-handler>
+			</try>
+
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="661d0188-7f96-40e5-95ba-063746c344c6" is='#[MunitTools::equalTo("Invalid usItemId")]' expression="#[payload.message]"/>
+
+		</munit:validation>
+	
+</munit:test>
+	<munit:test name="getStoreDetails-test-01" doc:id="598aceb4-7eef-443b-a75b-a879a7a996df">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Get Store Details" doc:id="722f9632-86c3-48a7-9d37-d38270d18650" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="48e50830-08be-4eb9-aa9a-9545bb35f355" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://getStoreDetailstest01\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getStoreDetailstest01\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getStoreDetailstest01\mock_variable_.dwl')]" />
+						<munit-tools:variable key="product_type_id" value="#[output application/json --- readUrl('classpath://getStoreDetailstest01\mock_variable_1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="queryParams" value="#[output application/json --- readUrl('classpath://getStoreDetailstest01\mock_variable_2.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="d6ab4fb1-9ded-47f3-9226-09d3d84aaed0" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://getStoreDetailstest01\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[readUrl('classpath://getStoreDetailstest01\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getStoreDetailstest01\set-event_variable_.dwl')]" />
+					<munit:variable key="product_type_id" value="#[output application/json --- readUrl('classpath://getStoreDetailstest01\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/json" />
+					<munit:variable key="queryParams" value="#[output application/json --- readUrl('classpath://getStoreDetailstest01\set-event_variable_2.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to getStoreDetails" doc:id="1cdda1dd-b55c-482e-af92-7013a7d5eb76" name="getStoreDetails"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="85dc0244-c56a-4067-9cff-98840e0af84c" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getStoreDetailstest01::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	
+	<munit:test name="getStoreDetails-test-02" doc:id="0ec0ae85-ec85-43d1-8db3-84a7c486ca55" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Get Store Details" doc:id="9444e9a7-61ef-43ae-92e0-fdfe10822075" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="48e50830-08be-4eb9-aa9a-9545bb35f355" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://getStoreDetailstest02\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getStoreDetailstest02\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getStoreDetailstest02\mock_variable_.dwl')]" />
+						<munit-tools:variable key="product_type_id" value="#[output application/json --- readUrl('classpath://getStoreDetailstest02\mock_variable_1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="queryParams" value="#[output application/json --- readUrl('classpath://getStoreDetailstest02\mock_variable_2.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="4f2d97aa-03d7-4505-a23c-42b53b635c15" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://getStoreDetailstest02\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[readUrl('classpath://getStoreDetailstest02\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getStoreDetailstest02\set-event_variable_.dwl')]" />
+					<munit:variable key="product_type_id" value="#[output application/json --- readUrl('classpath://getStoreDetailstest02\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/json" />
+					<munit:variable key="queryParams" value="#[output application/json --- readUrl('classpath://getStoreDetailstest02\set-event_variable_2.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				</munit:variables>
+			
+</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to getStoreDetails" doc:id="69a0db3b-b8cf-432e-a7f6-31a35d779106" name="getStoreDetails"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="48200baa-e360-42b1-b4f9-c118e98161fc" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getStoreDetailstest02::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="getStoreDetails-test-EMPTY_COLLECTION" doc:id="d2cfd382-579d-4573-a930-87bec74cd043">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Get Store Details" doc:id="716edffb-a78a-4a86-921b-4f4a2d0dae86" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="48e50830-08be-4eb9-aa9a-9545bb35f355" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://getStoreDetailstest01\mock_empty_collection_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getStoreDetailstest01\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getStoreDetailstest01\mock_variable_.dwl')]" />
+						<munit-tools:variable key="product_type_id" value="#[output application/json --- readUrl('classpath://getStoreDetailstest01\mock_variable_1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="queryParams" value="#[output application/json --- readUrl('classpath://getStoreDetailstest01\mock_variable_2.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="f6b60ba3-609c-4ead-9d4c-0f92eb8891f5" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://getStoreDetailstest01\set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[readUrl('classpath://getStoreDetailstest01\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getStoreDetailstest01\set-event_variable_.dwl')]" />
+					<munit:variable key="product_type_id" value="#[output application/json --- readUrl('classpath://getStoreDetailstest01\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/json" />
+					<munit:variable key="queryParams" value="#[output application/json --- readUrl('classpath://getStoreDetailstest01\set-event_variable_2.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="4e8d623c-804b-45b2-89ad-17e477cc7b04" >
+				<flow-ref doc:name="Flow-ref to getStoreDetails" doc:id="332ed27b-fd98-4e28-9407-10f37e634329" name="getStoreDetails" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="eb586465-8696-4369-bb54-525e3560fbd9" >
+						<logger level="ERROR" doc:name="Logger" doc:id="906fa7a1-e585-4eba-9b90-5ed4b69016fe" message="#[error.description]"/>
+					</on-error-continue>
+				</error-handler>
+			</try>
+
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="cbfc6672-52a3-46d1-8a48-513bea67b89d" expression="#[payload.message]" is='#[MunitTools::equalTo("No stores located in the mentioned Postal code")]'/>
+
+		</munit:validation>
+	
+</munit:test>
+
+
+</mule>

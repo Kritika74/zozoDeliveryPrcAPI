@@ -1,0 +1,8 @@
+%dw 2.0
+
+type auto_2bcee457_b461_4659_b4ab_823d0fd811e6_Input_Variables_queryParams = {|
+  usItemId: Number, 
+  quantity: Number, 
+  storeOpen24Hrs: "No" | "Yes"
+|}
+
