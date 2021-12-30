@@ -8,7 +8,7 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
 http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd">
 	 <http:listener-config name="zozo-delivery-proc-api-httpListenerConfig">
-        <http:listener-connection host="${secure::zozoProc.host}" port="${secure::zozoProc.port}" />
+        <http:listener-connection host="0.0.0.0" port="8081" />
     </http:listener-config>
 	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="c3f65a89-f919-499f-8e4e-3003ce04976d" basePath="${secure::walmart.basepath}" >
 		<http:request-connection protocol="${secure::walmart.protocol}" host="${secure::walmart.host}" port="${secure::walmart.port}" >
