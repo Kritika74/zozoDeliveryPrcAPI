@@ -44,12 +44,12 @@ output application/json
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<http:request method="POST" doc:name="Insert data to Delivery_Store_Details" doc:id="e251ba7a-9a60-4fc8-95c2-da2002b14d17" config-ref="HTTP_Request_zozo_sys_configuration" path="/api/deliveryDetails">
+		<http:request method="POST" doc:name="Insert data to Delivery_Store_Details" doc:id="e251ba7a-9a60-4fc8-95c2-da2002b14d17" config-ref="HTTP_Request_zozo_sys_configuration" path="/api/deliveryDetails" responseTimeout="30000">
 			<http:headers ><![CDATA[#[output application/java
 ---
 {
-	"client_secret" : p('zozoSysApi.client_secret'),
-	"client_id" : p('zozoSysApi.client_id')
+	"client_secret" : p('secure::zozoSysApi.client_secret'),
+	"client_id" : p('secure::zozoSysApi.client_id')
 }]]]></http:headers>
 		</http:request>
 		<ee:transform doc:name="Success Message" doc:id="a45231c2-6c28-405e-8410-644a2e2793ea" >
@@ -66,12 +66,12 @@ output application/json
 	</flow>
 	<flow name="getProductDetails" doc:id="6b880e09-e99e-4aa3-96fb-ec9007771bde" >
 		<logger level="INFO" doc:name="Start getProductDetails Logger INFO" doc:id="0262a663-cd82-4eeb-9461-4ba3007e3fa7" message='#["getProductDetails flow start at "++ now() as String]' />
-		<http:request method="GET" doc:name="Get Product Details" doc:id="45fecef6-02ca-486a-9f20-5af49515f239" config-ref="HTTP_Request_configuration" path="/products/v3/get-details">
+		<http:request method="GET" doc:name="Get Product Details" doc:id="45fecef6-02ca-486a-9f20-5af49515f239" config-ref="HTTP_Request_configuration" path="/products/v3/get-details" responseTimeout="30000">
 			<http:headers><![CDATA[#[output application/java
 ---
 {
-	"x-rapidapi-key" : p('walmart.key'),
-	"x-rapidapi-host" : p('walmart.host')
+	"x-rapidapi-key" : p('secure::walmart.key'),
+	"x-rapidapi-host" : p('secure::walmart.host')
 }]]]></http:headers>
 			<http:query-params><![CDATA[#[output application/java
 ---
@@ -105,12 +105,12 @@ payload.data.product.productTypeId
 	</flow>
 	<flow name="getStoreDetails" doc:id="2bcee457-b461-4659-b4ab-823d0fd811e6" >
 		<logger level="INFO" doc:name="Start getStoreDetails Logger INFO" doc:id="a77e06a3-8cce-408e-b82a-c10aa9c708de" message='#["getStoreDetails flow start at "++ now() as String]' />
-		<http:request method="GET" doc:name="Get Store Details" doc:id="48e50830-08be-4eb9-aa9a-9545bb35f355" config-ref="HTTP_Request_configuration" path="/stores/list">
+		<http:request method="GET" doc:name="Get Store Details" doc:id="48e50830-08be-4eb9-aa9a-9545bb35f355" config-ref="HTTP_Request_configuration" path="/stores/list" responseTimeout="30000">
 			<http:headers><![CDATA[#[output application/java
 ---
 {
-	"x-rapidapi-key" : p('walmart.key'),
-	"x-rapidapi-host" : p('walmart.host')
+	"x-rapidapi-key" : p('secure::walmart.key'),
+	"x-rapidapi-host" : p('secure::walmart.host')
 }]]]></http:headers>
 			<http:query-params><![CDATA[#[output application/java
 ---
