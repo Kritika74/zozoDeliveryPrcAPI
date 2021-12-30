@@ -1,6 +1,6 @@
 zozoProc:
-  host: "![DeXZouHo2v6Dm3jfqJAF/w==]"
-  port: "![85Pow3MnIVDSfP3xn3yenw==]"
+  host: "0.0.0.0"
+  port: "8081"
 
 walmart:
   host: "![f/zya5aeP0IQVkGEm4tywngIR/io2FBJm+ZKpgtImyc=]"
